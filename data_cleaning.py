@@ -25,13 +25,14 @@ df['max_salary'] = min_hr.apply(lambda x: int(x.split('-')[1]))
 df['avg_salary'] = (df.min_salary+df.max_salary)/2
 
 #Company name text only
-df['company_txt'] = df.apply(lambda x: x['Company Name'] if x['Rating'] <0 else x['Company Name'][:-3], axis = 1)
+df['company_name'] = df.apply(lambda x: x['Company Name'] if x['Rating'] <0 else x['Company Name'][:-3], axis = 1)
 
-#state field 
-df['job_state'] = df['Location'].apply(lambda x: x.split(',')[1])
+df['job_place'] = df['Location'].apply(lambda x: x.split(',')[1])
 df.job_state.value_counts()
 
-df['same_state'] = df.apply(lambda x: 1 if x.Location == x.Headquarters else 0, axis = 1)
+#state field 
+df['job_state']= df.apply(lambda x: x['Location'][-2:], axis=1)
+df.job_state.value_counts()
 
 #age of company 
 df['age'] = df.Founded.apply(lambda x: x if x <1 else 2020 - x)
